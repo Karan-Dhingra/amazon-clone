@@ -9,6 +9,7 @@ module.exports = {
                 SearchBackground: '#febd69',
                 CartColor: '#f08804',
                 FooterSecondary: '#37475A',
+                LinkText: '#007185',
             },
         },
     },

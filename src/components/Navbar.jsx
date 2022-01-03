@@ -76,20 +76,10 @@ export const Navbar = () => {
                 </div>
                 <div className='text cursor-pointer'>Best Sellers</div>
                 <div className='text cursor-pointer'>Mobiles</div>
-                <div className='text cursor-pointer'>Customer Service</div>
                 <div className='text cursor-pointer'>Electronics</div>
                 <div className='text cursor-pointer'>Today's Deals</div>
                 <div className='text cursor-pointer'>Fashion</div>
-                <div className='text cursor-pointer'>Prime</div>
-                <div className='text cursor-pointer'>Home & Kitchen</div>
-                <div className='text cursor-pointer'>Amazon Pay</div>
-                <div className='text cursor-pointer'>New Releases</div>
                 <div className='text cursor-pointer'>Computers</div>
-                <div className='text cursor-pointer'>Books</div>
-                <div className='text cursor-pointer'>Gift Cards</div>
-                <div className='text cursor-pointer'>Coupons</div>
-                <div className='text cursor-pointer'>Toys & Games</div>
-                <div className='text cursor-pointer'>Sell</div>
             </div>
         </nav>
     )
