@@ -7,6 +7,7 @@ module.exports = {
                 Primary: '#232f3e',
                 Secondary: '#EAEDED',
                 SearchBackground: '#febd69',
+                ButtonColor: '#f0c14b',
                 CartColor: '#f08804',
                 FooterSecondary: '#37475A',
                 LinkText: '#007185',
