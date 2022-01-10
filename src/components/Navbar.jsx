@@ -5,14 +5,15 @@ import Cart from '../img/cart.png'
 // import Profile from '../img/profile.png'
 import Search from '../img/search.png'
 import { ArrowDropDownRounded, Menu } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 export const Navbar = () => {
     return (
         <nav className='bg-Primary text-white'>
             <div className='top flex items-center bg-NavBackground h-16 px-4 justify-between'>
-                <div className='logo cursor-pointer'>
+                <Link to='/' className='logo cursor-pointer'>
                     <img src={Logo} alt='logo' className='w-24' />
-                </div>
+                </Link>
                 <div className='address flex items-end cursor-pointer'>
                     <div className='left'>
                         <img src={Location} alt='location' className='h-5' />
@@ -36,7 +37,10 @@ export const Navbar = () => {
                         <img src={Search} alt='search' className='w-6' />
                     </div>
                 </div>
-                <div className='signIn flex flex-col justify-center cursor-pointer'>
+                <Link
+                    to='/login'
+                    className='signIn flex flex-col justify-center cursor-pointer'
+                >
                     <div className='top leading-3'>
                         <span className='text-xs leading-3'>
                             Hello, sign in
@@ -50,12 +54,12 @@ export const Navbar = () => {
                             <ArrowDropDownRounded />
                         </div>
                     </div>
-                </div>
+                </Link>
                 <div className='returnOrder flex flex-col cursor-pointer'>
                     <span className='text-xs leading-3'>Returns</span>
                     <span className='font-semibold leading-4'>& Orders</span>
                 </div>
-                <div className='cart flex items-end cursor-pointer'>
+                <Link to='/cart' className='cart flex items-end cursor-pointer'>
                     <div className='left relative'>
                         <img src={Cart} alt='Cart' className='w-12' />
                         <span className='absolute -top-1 left-2/4 font-bold text-CartColor text-lg leading-3'>
@@ -65,7 +69,7 @@ export const Navbar = () => {
                     <div className='right'>
                         <span className='font-bold'>Cart</span>
                     </div>
-                </div>
+                </Link>
             </div>
             <div className='bottom h-10 flex items-center px-4 gap-x-3'>
                 <div className='text flex items-center'>

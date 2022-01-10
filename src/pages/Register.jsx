@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../img/logo.png'
 
 export const Register = () => {
@@ -61,12 +61,12 @@ export const Register = () => {
                             <p className='text-xs leading-4'>
                                 Already have a account?
                             </p>
-                            <a
-                                href='#'
+                            <Link
+                                to='/login'
                                 className='text-xs leading-4 text-blue-700 font-semibold'
                             >
                                 Sign in
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

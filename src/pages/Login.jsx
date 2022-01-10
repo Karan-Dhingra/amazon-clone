@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../img/logo.png'
 
 export const Login = () => {
@@ -40,11 +41,11 @@ export const Login = () => {
                         </p>
                     </div>
                 </div>
-                <div className='bottom mt-4'>
+                <Link to='/register' className='bottom mt-4'>
                     <button className='px-2 w-full text-sm bg-[#eff0f3] border-2 border-[#8d8d8d] rounded-md py-1'>
                         Create Your Amazon account
                     </button>
-                </div>
+                </Link>
             </div>
         </div>
     )
