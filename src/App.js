@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar'
 import { Cart } from './pages/Cart'
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
-import { Product } from './pages/Products'
+import Product from './pages/Products'
 import { Register } from './pages/Register'
 import {
     BrowserRouter as Router,
@@ -22,7 +22,7 @@ function App() {
                     <Route exact path='/cart' element={<Cart />} />
                     <Route exact path='/login' element={<Login />} />
                     <Route exact path='/register' element={<Register />} />
-                    <Route exact path='/product' element={<Product />} />
+                    <Route exact path='/product/:id' element={<Product />} />
                 </Routes>
                 <Footer />
             </Router>
