@@ -71,19 +71,37 @@ export const Navbar = () => {
                     </div>
                 </Link>
             </div>
-            <div className='bottom h-10 flex items-center px-4 gap-x-3'>
+            <div className='bottom h-10 flex items-center px-4 gap-x-7'>
                 <div className='text flex items-center'>
                     <div className='expandMenu icon mr-1 cursor-pointer'>
                         <Menu />
                     </div>
                     <span className='font-semibold cursor-pointer'>All</span>
                 </div>
-                <div className='text cursor-pointer'>Best Sellers</div>
-                <div className='text cursor-pointer'>Mobiles</div>
-                <div className='text cursor-pointer'>Electronics</div>
-                <div className='text cursor-pointer'>Today's Deals</div>
-                <div className='text cursor-pointer'>Fashion</div>
-                <div className='text cursor-pointer'>Computers</div>
+                <Link
+                    to='/category/men-fashion'
+                    className='text cursor-pointer hover:underline transition-all underline-offset-2 delay-200'
+                >
+                    Men's Fashion
+                </Link>
+                <Link
+                    to='/category/women-fashion'
+                    className='text cursor-pointer hover:underline transition-all underline-offset-2 delay-200'
+                >
+                    Women's Fashion
+                </Link>
+                <Link
+                    to='/category/electronics'
+                    className='text cursor-pointer hover:underline transition-all underline-offset-2 delay-200'
+                >
+                    Electronics
+                </Link>
+                <Link
+                    to='/category/jewelery'
+                    className='text cursor-pointer hover:underline transition-all underline-offset-2 delay-200'
+                >
+                    Fashion
+                </Link>
             </div>
         </nav>
     )

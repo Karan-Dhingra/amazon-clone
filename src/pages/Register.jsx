@@ -1,15 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Logo from '../img/logo.png'
+import {register} from '../redux/actions/userAction'
 
 export const Register = () => {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [mobileNumber, setMobileNumber] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmpassword, setConfirmPassword] = useState('')
+    const userRegister = useSelector((state) => state.userRegister)
+    const dispatch = useDispatch()
+    const {error, loading} = userRegister
+
+    const handleClick = (e) => {
+        e.preventDefault()
+        if(password === confirmpassword){
+            dispatch(register(name, mobileNumber, email, password, confirmpassword))
+        }else{
+            console.log('PASSWORD DOESNT MATCH');
+        }
+        console.log(error)
+    }
+
     return (
         <div className='outerContainer bg-white h-full py-20'>
             <div className='body w-80 mx-auto'>
                 <div className='top flex items-center justify-center my-2 mb-4'>
                     <img src={Logo} alt='logo' className='w-28 invert' />
                 </div>
-                <div className='center flex flex-col p-5 border-2 border-[#ddd] rounded-md'>
+                <form
+                    onSubmit={(e) => handleClick(e)}
+                    className='center flex flex-col p-5 border-2 border-[#ddd] rounded-md'
+                >
                     <div className='heading mb-1'>
                         <h3 className='font-semibold text-2xl'>
                             Create Account
@@ -20,7 +44,9 @@ export const Register = () => {
                             <span className='font-bold text-xs'>Your name</span>
                             <input
                                 type='text'
+                                required
                                 className='w-full border-2 border-[#a6a6a6] rounded-md p-1'
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                         <div className='number-input flex flex-col'>
@@ -28,22 +54,43 @@ export const Register = () => {
                                 Mobile Number
                             </span>
                             <input
-                                type='text'
+                                type='number'
+                                required
                                 className='w-full border-2 border-[#a6a6a6] rounded-md p-1'
+                                onChange={(e) =>
+                                    setMobileNumber(e.target.value)
+                                }
                             />
                         </div>
                         <div className='email-input flex flex-col'>
                             <span className='font-bold text-xs'>Email</span>
                             <input
-                                type='text'
+                                type='email'
+                                required
                                 className='w-full border-2 border-[#a6a6a6] rounded-md p-1'
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div className='password-input flex flex-col'>
                             <span className='font-bold text-xs'>Password</span>
                             <input
-                                type='text'
+                                type='password'
+                                required
                                 className='w-full border-2 border-[#a6a6a6] rounded-md p-1'
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <div className='password-input flex flex-col'>
+                            <span className='font-bold text-xs'>
+                                Confirm Password
+                            </span>
+                            <input
+                                type='password'
+                                required
+                                className='w-full border-2 border-[#a6a6a6] rounded-md p-1'
+                                onChange={(e) =>
+                                    setConfirmPassword(e.target.value)
+                                }
                             />
                         </div>
                         <p className='text-xs leading-4'>
@@ -51,7 +98,10 @@ export const Register = () => {
                             Message and Data rates may apply.
                         </p>
                         <div className='submit'>
-                            <button className='bg-ButtonColor p-2 py-[7px] border-2 border-[#8d8d8d] rounded-md text-sm w-full'>
+                            <button
+                                type='submit'
+                                className='bg-ButtonColor p-2 py-[7px] border-2 border-[#8d8d8d] rounded-md text-sm w-full'
+                            >
                                 Continue
                             </button>
                         </div>
@@ -69,7 +119,7 @@ export const Register = () => {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     )

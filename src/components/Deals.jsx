@@ -1,13 +1,17 @@
 // import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class Deals extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            containerProducts: [],
+            containerProducts1: [],
+            containerProducts2: [],
+            containerProducts3: [],
+            containerProducts4: [],
             sliderProducts: [{}, {}],
         }
     }
@@ -24,12 +28,44 @@ class Deals extends Component {
                 `${process.env.REACT_APP_BACKEND_URL}/products?limit=4`,
                 config
             )
-            .then((result) => this.setState({ containerProducts: result.data }))
+            .then((result) =>
+                this.setState({ containerProducts1: result.data })
+            )
             .catch((err) => console.log(err))
 
         await axios
             .get(
-                `${process.env.REACT_APP_BACKEND_URL}/products?limit=16`,
+                `${process.env.REACT_APP_BACKEND_URL}/products?limit=4&skip=4`,
+                config
+            )
+            .then((result) =>
+                this.setState({ containerProducts2: result.data })
+            )
+            .catch((err) => console.log(err))
+
+        await axios
+            .get(
+                `${process.env.REACT_APP_BACKEND_URL}/products?limit=4&skip=8`,
+                config
+            )
+            .then((result) =>
+                this.setState({ containerProducts3: result.data })
+            )
+            .catch((err) => console.log(err))
+
+        await axios
+            .get(
+                `${process.env.REACT_APP_BACKEND_URL}/products?limit=4&skip=12`,
+                config
+            )
+            .then((result) =>
+                this.setState({ containerProducts4: result.data })
+            )
+            .catch((err) => console.log(err))
+
+        await axios
+            .get(
+                `${process.env.REACT_APP_BACKEND_URL}/products?limit=16&skip=3`,
                 config
             )
             .then((result) => this.setState({ sliderProducts: result.data }))
@@ -43,13 +79,28 @@ class Deals extends Component {
             <div className='mx-3 relative'>
                 {/* Deals Container */}
                 <div className='absolute -top-[36rem]'>
-                    <DealsContainer products={this.state.containerProducts} />
+                    <DealsContainer
+                        products1={this.state.containerProducts1}
+                        products2={this.state.containerProducts2}
+                        products3={this.state.containerProducts3}
+                        products4={this.state.containerProducts4}
+                    />
                 </div>
                 <div className='mt-[16rem]'>
                     <DealsSlider products={this.state.sliderProducts} />
-                    <DealsContainer products={this.state.containerProducts} />
+                    <DealsContainer
+                        products1={this.state.containerProducts1}
+                        products2={this.state.containerProducts2}
+                        products3={this.state.containerProducts3}
+                        products4={this.state.containerProducts4}
+                    />
                     <DealsSlider products={this.state.sliderProducts} />
-                    <DealsContainer products={this.state.containerProducts} />
+                    <DealsContainer
+                        products1={this.state.containerProducts1}
+                        products2={this.state.containerProducts2}
+                        products3={this.state.containerProducts3}
+                        products4={this.state.containerProducts4}
+                    />
                     <DealsSlider products={this.state.sliderProducts} />
                 </div>
             </div>
@@ -59,13 +110,13 @@ class Deals extends Component {
 
 export default Deals
 
-const DealsContainer = ({ products }) => {
+const DealsContainer = ({ products1, products2, products3, products4 }) => {
     return (
         <div className='flex items-center justify-between w-full gap-x-4 gap-y-8'>
-            <DealContainerCard products={products} />
-            <DealContainerCard products={products} />
-            <DealContainerCard products={products} />
-            <DealContainerCard products={products} />
+            <DealContainerCard products={products1} />
+            <DealContainerCard products={products2} />
+            <DealContainerCard products={products3} />
+            <DealContainerCard products={products4} />
             {/* <DealContainerCard products={products} /> */}
         </div>
     )
@@ -87,11 +138,16 @@ const DealContainerCard = ({ products }) => {
                             className='imageBox flex flex-col w-[49%]'
                         >
                             <div className='box bg-SearchBackground h-44 w-full'>
-                                <img
-                                    src={product.image}
-                                    alt={product.title}
+                                <Link
+                                    to={`/product/${product._id}`}
                                     className='w-[inherit] h-[inherit]'
-                                />
+                                >
+                                    <img
+                                        src={product.image}
+                                        alt={product.title}
+                                        className='w-[inherit] h-[inherit] cursor-pointer'
+                                    />
+                                </Link>
                             </div>
                             <span className='text-xs truncate'>
                                 {product.title}
@@ -127,11 +183,16 @@ const DealsSlider = ({ products }) => {
                                 className='item flex flex-col items-center w-min'
                             >
                                 <div className='itemImage h-40 bg-[#c7c7c7c9] w-32'>
-                                    <img
-                                        src={product.image}
-                                        alt={product.title}
+                                    <Link
+                                        to={`/product/${product._id}`}
                                         className='w-[inherit] h-[inherit]'
-                                    />
+                                    >
+                                        <img
+                                            src={product.image}
+                                            alt={product.title}
+                                            className='w-[inherit] h-[inherit]'
+                                        />
+                                    </Link>
                                 </div>
                                 <div className='price'>{`${product.price} $`}</div>
                             </div>
