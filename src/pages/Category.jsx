@@ -4,22 +4,17 @@ import { Link, useParams } from 'react-router-dom'
 
 export const Category = () => {
     const params = useParams()
-    // const [cat, setCat] = useState('')
     const [product, setProduct] = useState([])
-    const [fetched, setFetched] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [sort, setSort] = useState(1)
     let cati = params.cat
-    // const [prevCat, setPrevCat] = useState('cat')
-    // console.log(cat)
-    const chackParams = () => {
-        // setCat(params.cat)
-    }
 
     useEffect(() => {
         // console.log(product)
         const fetchItems = async () => {
             var cat = params.cat
             setLoading(true)
+            setSort(0)
             console.log(params.cat)
             // chackParams()
             if (cat === 'men-fashion') {
@@ -57,20 +52,47 @@ export const Category = () => {
             console.log(product)
         }
 
-        // if (!fetched) {
-        //     console.log('FETCHING...')
-        //     fetchItems()
-        //     setFetched(true)
-        // }
-
-        // if (prevCat !== cat) {
-        //     setPrevCat(prevCat)
-        //     // setFetched(false)
-        // }
-        // return () => {
         return fetchItems()
         // }
     }, [cati])
+
+    useEffect(() => {
+        const sortProduct = async () => {
+            if (sort === 1) {
+                console.log('SORT 1')
+                await product.sort(function (a, b) {
+                    if (a.price > b.price) {
+                        return -1
+                    }
+                    if (a.price < b.price) {
+                        return 1
+                    }
+                    return 0
+                })
+            }
+            if (sort === 2) {
+                console.log('SORT 2')
+                await product.sort(function (a, b) {
+                    if (a.price > b.price) {
+                        return 1
+                    }
+                    if (a.price < b.price) {
+                        return -1
+                    }
+                    return 0
+                })
+            }
+            // } else if (sort === 2) {
+            //     console.log('SORT 2')
+            // }
+            // console.log(data1)
+            // console.log(data2)
+            console.log(sort)
+            console.log(product)
+        }
+
+        return sortProduct()
+    }, [sort, product])
 
     return (
         <div className='flex pb-20'>
@@ -78,8 +100,9 @@ export const Category = () => {
                 <h1>LOADING...</h1>
             ) : (
                 <>
-                    <div className='left w-48 p-4'>
+                    <div className='left w-72 p-4'>
                         <h2 className='text-xl font-semibold'>Filters</h2>
+                        <SelectBar setSort={setSort} />
                     </div>
                     <div className='right p-4'>
                         <div className='top px-2 mb-4'>
@@ -117,7 +140,7 @@ const Card = ({ product }) => {
             </div>
             <div className='bottom flex flex-col px-4'>
                 <div className='price font-semibold text-lg'>
-                    {product.price || `$50`}
+                    {`$` + product.price || `$50`}
                 </div>
                 <div className='name'>
                     {product.title ||
@@ -125,5 +148,23 @@ const Card = ({ product }) => {
                 </div>
             </div>
         </Link>
+    )
+}
+
+const SelectBar = ({ setSort }) => {
+    return (
+        <div className='flex items-center gap-x-2'>
+            <span>Sort By: </span>
+            <select
+                name='Sort Data'
+                className='border-2 rounded-md px-2 py-1'
+                onChange={(e) => {
+                    setSort(parseInt(e.target.value))
+                }}
+            >
+                <option value='1'>Lowest Price</option>
+                <option value='2'>Highest Price</option>
+            </select>
+        </div>
     )
 }

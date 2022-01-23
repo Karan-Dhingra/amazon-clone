@@ -14,7 +14,7 @@ export const Login = () => {
     const handleClick = (e) => {
         e.preventDefault()
         dispatch(login(email, password))
-        // console.log(loading, error)
+        console.log(loading, error)
     }
 
     return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from '../img/logo.png'
 import Location from '../img/location.png'
 import Cart from '../img/cart.png'
@@ -6,8 +6,21 @@ import Cart from '../img/cart.png'
 import Search from '../img/search.png'
 import { ArrowDropDownRounded, Menu } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export const Navbar = () => {
+    const [qty, setQty] = useState(0)
+    const cartData = useSelector((state) => state.cart)
+
+    useEffect(() => {
+        let quantity = cartData ? cartData.quantity : 0
+        setQty(quantity)
+        // const getData = () => {
+        // }
+        // return () => {
+        //     getData()
+        // };
+    }, [cartData])
     return (
         <nav className='bg-Primary text-white'>
             <div className='top flex items-center bg-NavBackground h-16 px-4 justify-between'>
@@ -62,8 +75,8 @@ export const Navbar = () => {
                 <Link to='/cart' className='cart flex items-end cursor-pointer'>
                     <div className='left relative'>
                         <img src={Cart} alt='Cart' className='w-12' />
-                        <span className='absolute -top-1 left-2/4 font-bold text-CartColor text-lg leading-3'>
-                            0
+                        <span className='absolute -top-[3px] left-[43%] font-bold text-CartColor text-lg leading-3'>
+                            {qty ? qty : 0}
                         </span>
                     </div>
                     <div className='right'>
