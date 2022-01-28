@@ -2,46 +2,81 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addToCartAction, UpdateCartAction } from '../redux/actions/cartAction'
+import {
+    addToCartAction,
+    createOrder,
+    UpdateCartAction,
+} from '../redux/actions/cartAction'
+import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
 
-export const Cart = () => {
-    // const [products, setProducts] = useState([])
+export const Cart = ({ login }) => {
+    const [stripeToken, setStripeToken] = useState(null)
     const dispatch = useDispatch()
     const cartData = useSelector((state) => state.cart)
-    // const updateCart = useSelector(state => state.updateCart)
     let { products, quantity, total } = cartData
-    // let { newProducts, newQuantity, newTotal, updated } = updateCart
-    // console.log(data.products);
-    // const [data, setData] = useState(null)
-    // const [products, setProducts] = useState()
-    // const [quantity, setQuantity] = useState(0)
-    // const [total, setTotal] = useState(0)
 
     const DeleteItem = (e, id) => {
         e.preventDefault()
         dispatch(UpdateCartAction(id))
-        // dispatch(addToCartAction(id, products, deleteItem))
     }
 
+    const buyProducts = (e, id) => {
+        e.preventDefault()
+    }
+
+    const onToken = (token) => {
+        const config = {
+            headers: {
+                'content-type': 'application/json',
+            },
+        }
+
+        return axios
+            .post(
+                'http://localhost:5000/checkout/payment',
+                {
+                    tokenId: token,
+                    amount: total * 100,
+                },
+                config
+            )
+            .then((res) => {
+                console.log(res)
+                dispatch(createOrder(products, total))
+            })
+            .catch((err) => console.log(err.message))
+    }
+
+    // const appearance = {
+    //     theme: 'stripe',
+    // }
+    console.log(total)
     // useEffect(() => {
-    //     const parseData = () => {
-    //         setData(JSON.parse(localStorage.getItem('cartInfo')))
-    //         setProducts(data.products)
-    //         setQuantity(data.quantity)
-    //         setTotal(data.total)
-    //         if (products)
-    //             products.reverse();
+    //     // Create PaymentIntent as soon as the page loads
+    //     const createPayment = () => {
+    //         const config = {
+    //             headers: {
+    //                 'content-type': 'application/json',
+    //             },
+    //         }
+
+    //         axios
+    //             .post('http://localhost:5000/checkout/payment', {
+    //                 tokenId: stripeToken.id,
+    //                 amount: total * 100,
+    //             })
+    //             .then((res) => console.log(res.data))
+    //             .catch((err) => console.log(err.message))
     //     }
-    //     // return parseData()
-    //     // return () => {
-    //     // parseData()
-    //     // };
-    // }, []);
+    // }
+    //     // stripeToken && createPayment()
+    // }, [stripeToken, total])
 
     return (
         <div className='cartContainer px-10 py-10'>
             <div className='productOuterContainer py-5 bg-white'>
-                {products ? (
+                {login && products ? (
                     <>
                         <div className='top p-4'>
                             <h1 className='text-3xl font-medium'>
@@ -68,13 +103,29 @@ export const Cart = () => {
                             <h2>
                                 Subtotal ({quantity} Item): <b>$ {total}</b>
                             </h2>
-                            <button className='bg-[#FFD814] border-2 border-[#FCD200] rounded-full w-60 p-1 py-[3px] leading-5 font-semibold mt-3 text-sm'>
-                                Proceed to Buy
-                            </button>
+                            <StripeCheckout
+                                name='DK STORE'
+                                image='https://lswordpress.s3.amazonaws.com/blog/wp-content/uploads/2019/12/21001444/Amazon-Logistics.jpg'
+                                billingAddress
+                                shippingAddress
+                                description={`Your total is $${total}`}
+                                amount={total * 100}
+                                token={onToken}
+                                stripeKey={process.env.REACT_APP_STRIPE}
+                            >
+                                <button
+                                    className='bg-[#FFD814] border-2 border-[#FCD200] rounded-full w-60 p-1 py-[3px] leading-5 font-semibold mt-3 text-sm'
+                                    onClick={(e) => buyProducts(e)}
+                                >
+                                    Proceed to Buy
+                                </button>
+                            </StripeCheckout>
                         </div>
                     </>
-                ) : (
+                ) : login ? (
                     <h1 className='text-center my-20'>Cart is Empty</h1>
+                ) : (
+                    <h1 className='text-center my-20'>Please Sign in First</h1>
                 )}
             </div>
         </div>

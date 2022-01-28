@@ -1,7 +1,11 @@
+import axios from 'axios'
 import {
     ADD_CART_FAIL,
     ADD_CART_REQUEST,
     ADD_CART_SUCCESS,
+    ADD_ORDER_FAIL,
+    ADD_ORDER_REQUEST,
+    ADD_ORDER_SUCCESS,
     UPDATE_CART_FAIL,
     UPDATE_CART_REQUEST,
     UPDATE_CART_SUCCESS,
@@ -16,7 +20,45 @@ const findProduct = (products, id) => {
     return -1
 }
 
-export const createCartAction = () => async (dispatch) => {}
+export const createOrder = (products, amount) => async (dispatch) => {
+    try {
+        dispatch({ type: ADD_ORDER_REQUEST })
+        const config = {
+            headers: {
+                'content-type': 'application/json',
+            },
+        }
+        const userId = '7987987878'
+        const address = { country: 'India' }
+
+        const { data } = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}/orders`,
+            { userId, products, amount, address },
+            config
+        )
+        console.log(data)
+        dispatch({
+            type: ADD_ORDER_SUCCESS,
+            payload: data,
+        })
+        localStorage.removeItem('cartInfo')
+        dispatch({
+            type: ADD_CART_SUCCESS,
+            payload: [],
+            quantity: 0,
+            total: 0,
+        })
+    } catch (error) {
+        console.log('ERROR: ' + error)
+        dispatch({
+            type: ADD_ORDER_FAIL,
+            payload:
+                error.response && error.response.data.msg
+                    ? error.response.data.msg
+                    : error.message,
+        })
+    }
+}
 
 export const addToCartAction = (quantity, product) => async (dispatch) => {
     try {

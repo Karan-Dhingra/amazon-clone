@@ -6,11 +6,18 @@ import Cart from '../img/cart.png'
 import Search from '../img/search.png'
 import { ArrowDropDownRounded, Menu } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../redux/actions/userAction'
 
-export const Navbar = () => {
+export const Navbar = ({ login }) => {
     const [qty, setQty] = useState(0)
     const cartData = useSelector((state) => state.cart)
+    const dispatch = useDispatch()
+
+    const logoutMe = (e) => {
+        dispatch(logout())
+        e.preventDefault()
+    }
 
     useEffect(() => {
         let quantity = cartData ? cartData.quantity : 0
@@ -34,7 +41,7 @@ export const Navbar = () => {
                     <div className='right flex flex-col'>
                         <span className='text-xs leading-3'>Hello</span>
                         <span className='font-semibold leading-4'>
-                            Select your address
+                            {login ? `India` : `Select your address`}
                         </span>
                     </div>
                 </div>
@@ -50,28 +57,33 @@ export const Navbar = () => {
                         <img src={Search} alt='search' className='w-6' />
                     </div>
                 </div>
-                <Link
-                    to='/login'
-                    className='signIn flex flex-col justify-center cursor-pointer'
-                >
-                    <div className='top leading-3'>
-                        <span className='text-xs leading-3'>
-                            Hello, sign in
-                        </span>
-                    </div>
-                    <div className='bottom flex items-center h-min leading-4'>
-                        <span className='font-semibold leading-4'>
-                            Accounts & list
-                        </span>
-                        <div className='icon'>
-                            <ArrowDropDownRounded />
+                {!login ? (
+                    <Link
+                        to='/login'
+                        className='signIn flex flex-col justify-center cursor-pointer'
+                    >
+                        <div className='top leading-3'>
+                            <span className='text-xs leading-3'>
+                                Hello, sign in
+                            </span>
                         </div>
+                        <div className='bottom flex items-center h-min leading-4'>
+                            <span className='font-semibold leading-4'>
+                                Accounts & list
+                            </span>
+                            <div className='icon'>
+                                <ArrowDropDownRounded />
+                            </div>
+                        </div>
+                    </Link>
+                ) : (
+                    <div
+                        className='bottom flex items-center h-min font-semibold leading-4 cursor-pointer'
+                        onClick={(e) => logoutMe(e)}
+                    >
+                        Logout
                     </div>
-                </Link>
-                <div className='returnOrder flex flex-col cursor-pointer'>
-                    <span className='text-xs leading-3'>Returns</span>
-                    <span className='font-semibold leading-4'>& Orders</span>
-                </div>
+                )}
                 <Link to='/cart' className='cart flex items-end cursor-pointer'>
                     <div className='left relative'>
                         <img src={Cart} alt='Cart' className='w-12' />

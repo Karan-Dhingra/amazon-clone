@@ -1,4 +1,14 @@
-import { ADD_CART_FAIL, ADD_CART_REQUEST, ADD_CART_SUCCESS, CART_CREATION_FAIL, CART_CREATION_REQUEST, CART_CREATION_SUCCESS } from "../constants/cartConstant";
+import {
+    ADD_CART_FAIL,
+    ADD_CART_REQUEST,
+    ADD_CART_SUCCESS,
+    ADD_ORDER_FAIL,
+    ADD_ORDER_REQUEST,
+    ADD_ORDER_SUCCESS,
+    CART_CREATION_FAIL,
+    CART_CREATION_REQUEST,
+    CART_CREATION_SUCCESS,
+} from '../constants/cartConstant'
 
 export const cartReducer = (state = {}, action) => {
     switch (action.type) {
@@ -9,16 +19,24 @@ export const cartReducer = (state = {}, action) => {
         case CART_CREATION_FAIL:
             return { loading: false, error: action.payload }
         default:
-            return state;
+            return state
     }
 }
 
 export const addToCartReducer = (state = {}, action) => {
     switch (action.type) {
         case ADD_CART_REQUEST:
-            return { quantity: state.quantity, products: state.products, total: state.total }
+            return {
+                quantity: state.quantity,
+                products: state.products,
+                total: state.total,
+            }
         case ADD_CART_SUCCESS:
-            return { quantity: action.quantity, products: action.payload, total: action.total }
+            return {
+                quantity: action.quantity,
+                products: action.payload,
+                total: action.total,
+            }
         case ADD_CART_FAIL:
             return { error: action.payload }
 
@@ -32,9 +50,36 @@ export const updateCartReducer = (state = {}, action) => {
         case ADD_CART_REQUEST:
             return { updated: false }
         case ADD_CART_SUCCESS:
-            return { updated: true, quantity: action.quantity, products: action.payload, total: action.total }
+            return {
+                updated: true,
+                quantity: action.quantity,
+                products: action.payload,
+                total: action.total,
+            }
         case ADD_CART_FAIL:
             return { updated: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const createOrderReducer = (state = {}, action) => {
+    switch (action.type) {
+        case ADD_ORDER_REQUEST:
+            return {
+                loading: true,
+            }
+        case ADD_ORDER_SUCCESS:
+            return {
+                loading: false,
+                products: action.payload,
+            }
+        case ADD_ORDER_FAIL:
+            return {
+                loading: false,
+                error: action.payload,
+            }
 
         default:
             return state

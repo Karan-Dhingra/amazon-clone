@@ -1,7 +1,7 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { UpdateCartAction } from './actions/cartAction'
+import { createOrder, UpdateCartAction } from './actions/cartAction'
 import { addToCartReducer } from './reducers/cartReducer'
 import { userLoginReducer, userRegisterReducer } from './reducers/userReducer'
 
@@ -9,7 +9,8 @@ const reducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     cart: addToCartReducer,
-    updateCart: UpdateCartAction
+    updateCart: UpdateCartAction,
+    createOrder: createOrder,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -21,7 +22,7 @@ const cartInfoFromStorage = localStorage.getItem('cartInfo')
 const initialState = {
     userLogin: {
         userInfo: userInfoFromStorage,
-        isLogin: false,
+        isLogin: userInfoFromStorage ? true : false,
         isAdmin: false,
     },
     cart: {
@@ -34,7 +35,7 @@ const initialState = {
         quantity: cartInfoFromStorage.quantity,
         products: cartInfoFromStorage.products,
         total: cartInfoFromStorage.total,
-    }
+    },
 }
 
 const middleware = [thunk]
